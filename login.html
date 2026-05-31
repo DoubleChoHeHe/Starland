@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register & Login Form</title>
+  <link rel="stylesheet" href="./login.css">
+
+</head>
+<body>
+  <div class="container" id="registerForm">
+    <h2>Đăng ký</h2>
+    <form id="register" action="/register" method="POST">
+      <label for="username">Tên đăng nhập</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="password">Mật khẩu</label>
+      <input type="password" id="password" name="password" required>
+      
+      <label for="confirm">Xác nhận mật khẩu</label>
+      <input type="password" id="confirm" name="confirm" required>
+      
+      <div class="error" id="registerError"></div>
+      <button type="submit">Đăng ký</button>
+    </form>
+    <div class="switch">
+      <p>Đã có tài khoản? <a href="#loginForm">Đăng nhập</a></p>
+    </div>
+  </div>
+
+  <div class="container" id="loginForm" style="display:none;">
+    <h2>Đăng nhập</h2>
+    <form id="login" action="index.html" method="POST">
+      <label for="loginUsername">Tên đăng nhập</label>
+      <input type="text" id="loginUsername" name="username" required>
+      
+      <label for="loginPassword">Mật khẩu</label>
+      <input type="password" id="loginPassword" name="password" required>
+      
+      <div class="error" id="loginError"></div>
+      <button type="submit">Đăng nhập</button>
+    </form>
+    <div class="switch">
+      <p>Chưa có tài khoản? <a href="#registerForm">Đăng ký</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Chuyển đổi form
+    document.querySelectorAll('.switch a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.getElementById('registerForm').style.display = 
+          link.getAttribute('href') === '#registerForm' ? 'block' : 'none';
+        document.getElementById('loginForm').style.display = 
+          link.getAttribute('href') === '#loginForm' ? 'block' : 'none';
+      });
+    });
+
+    // Validation Register
+    document.getElementById('register').addEventListener('submit', function(e) {
+      let error = "";
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+
+      if(username.length < 6 || username.length > 18) {
+        error = "Username phải từ 6 đến 18 ký tự.";
+      } else if(password.length < 6 || password.length > 18) {
+        error = "Mật khẩu phải từ 6 đến 18 ký tự.";
+      } else if(password !== confirm) {
+        error = "Xác nhận mật khẩu không khớp.";
+      }
+
+      if(error !== "") {
+        e.preventDefault();
+        document.getElementById('registerError').innerText = error;
+      }
+    });
+
+    // Validation Login
+    document.getElementById('login').addEventListener('submit', function(e) {
+      let error = "";
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+
+      if(username.length < 6 || username.length > 18) {
+        error = "Username phải từ 6 đến 18 ký tự.";
+      } else if(password.length < 6 || password.length > 18) {
+        error = "Mật khẩu phải từ 6 đến 18 ký tự.";
+      }
+
+      if(error !== "") {
+        e.preventDefault();
+        document.getElementById('loginError').innerText = error;
+      }
+    });
+  </script>
+</body>
+</html>
